@@ -1,0 +1,41 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <%= link_to root_path, class: "logo", aria: { label: "Arcline home" } do %>
+          <%= render "shared/logo", size: 26 %>
+          <span class="logo__word">Arcline</span>
+        <% end %>
+        <p>Customer dashboard for Arcline IT: certificate expiry, service status and support.</p>
+        <p class="site-footer__place">Enid, Oklahoma. Serving clients across the US.</p>
+      </div>
+
+      <div>
+        <p class="site-footer__title">Portal</p>
+        <ul class="site-footer__links">
+          <% if authenticated? %>
+            <li><%= link_to "Dashboard", dashboard_path %></li>
+            <li><%= link_to "SSL certificates", domains_path %></li>
+            <li><%= link_to "Support tickets", tickets_path %></li>
+          <% else %>
+            <li><%= link_to "Log in", new_session_path %></li>
+            <li><%= link_to "Reset password", new_password_path %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div>
+        <p class="site-footer__title">Company</p>
+        <ul class="site-footer__links">
+          <li><%= link_to "Website", "https://arclineit.com" %></li>
+          <li><%= link_to "Terms", "https://arclineit.com/tos" %></li>
+          <li><%= link_to "Privacy", "https://arclineit.com/privacy" %></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>&copy; <%= Date.current.year %> Arcline IT LLC</p>
+    </div>
+  </div>
+</footer>

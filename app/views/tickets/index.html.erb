@@ -1,0 +1,44 @@
+<% content_for :title, "Support tickets — Arcline Portal" %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">Portal</p>
+    <h1 class="page-header__title">Support tickets</h1>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <section class="dash-section">
+        <h2 class="dash-section__title">your tickets</h2>
+        <div class="panel">
+          <% if @tickets.any? %>
+            <%= render "tickets/table", tickets: @tickets %>
+          <% else %>
+            <div class="panel__body"><p class="dash-empty">No support tickets.</p></div>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">open a ticket</h2>
+        <div class="panel">
+          <div class="panel__body">
+            <%= form_with url: tickets_path, class: "form" do |form| %>
+              <div class="field">
+                <%= form.label :subject, "Subject" %>
+                <%= form.text_field :subject, required: true, maxlength: 200 %>
+              </div>
+              <div class="field">
+                <%= form.label :body, "Message" %>
+                <%= form.text_area :body, required: true, rows: 6 %>
+              </div>
+              <%= form.submit "Open ticket", class: "btn btn--primary" %>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

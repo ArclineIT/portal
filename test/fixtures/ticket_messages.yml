@@ -1,0 +1,7 @@
+acme_outage_first:
+  ticket: acme_outage
+  body: Pages take ten seconds to load.
+
+globex_dns_first:
+  ticket: globex_dns
+  body: Which nameservers should I use?

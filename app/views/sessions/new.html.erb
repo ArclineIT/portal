@@ -1,0 +1,28 @@
+<% content_for :title, "Log in — Arcline Portal" %>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="auth">
+      <div class="auth__header">
+        <p class="eyebrow">Portal</p>
+        <h1 class="auth__title">Log in to your account</h1>
+      </div>
+
+      <%= form_with url: session_path, class: "form" do |form| %>
+        <div class="field">
+          <%= form.label :username, "Username" %>
+          <%= form.text_field :username, autocomplete: "username", required: true, autofocus: true %>
+        </div>
+        <div class="field">
+          <%= form.label :password, "Password" %>
+          <%= form.password_field :password, autocomplete: "current-password", required: true, maxlength: 72 %>
+        </div>
+        <%= form.submit "Log in", class: "btn btn--primary btn--full" %>
+      <% end %>
+
+      <div class="auth__links">
+        <%= link_to "Forgot password?", new_password_path %>
+      </div>
+    </div>
+  </div>
+</section>

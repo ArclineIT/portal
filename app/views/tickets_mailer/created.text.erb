@@ -1,0 +1,8 @@
+New support ticket from <%= @ticket.client.display_name %>
+
+Subject: <%= @ticket.subject %>
+
+<%= @message.body %>
+
+---
+View ticket: <%= ticket_url(@ticket) %>

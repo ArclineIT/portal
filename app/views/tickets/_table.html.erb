@@ -1,0 +1,23 @@
+<%# locals: (tickets:, show_client: false) %>
+<div class="table-wrap">
+  <table class="inv-table">
+    <thead>
+      <tr>
+        <th class="inv-table__th">Subject</th>
+        <% if show_client %><th class="inv-table__th">Client</th><% end %>
+        <th class="inv-table__th">Status</th>
+        <th class="inv-table__th">Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tickets.each do |ticket| %>
+        <tr class="inv-table__row">
+          <td class="inv-table__td"><%= link_to ticket.subject, ticket_path(ticket) %></td>
+          <% if show_client %><td class="inv-table__td inv-table__td--muted"><%= ticket.client.display_name %></td><% end %>
+          <td class="inv-table__td"><span class="status-badge status-badge--<%= ticket.status %>"><%= ticket.status.humanize.downcase %></span></td>
+          <td class="inv-table__td inv-table__td--muted"><%= time_ago_in_words(ticket.updated_at) %> ago</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,9 @@
+acme_outage:
+  client: acme
+  subject: Site is slow
+  status: open
+
+globex_dns:
+  client: globex
+  subject: DNS question
+  status: open

@@ -1,0 +1,41 @@
+<% content_for :title, "SSL certificates — Arcline Portal" %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">Portal</p>
+    <h1 class="page-header__title">SSL certificates</h1>
+    <p class="lead">Certificates are checked daily. Green is more than 30 days left, amber is 14 to 30, red is under 14.</p>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <section class="dash-section">
+        <h2 class="dash-section__title">add a domain</h2>
+        <div class="panel">
+          <div class="panel__body">
+            <%= form_with url: domains_path, class: "form form--inline" do |form| %>
+              <div class="field">
+                <%= form.label :name, "Domain" %>
+                <%= form.text_field :name, required: true, placeholder: "example.com", autocapitalize: "none", spellcheck: false %>
+              </div>
+              <%= form.submit "Add domain", class: "btn btn--primary" %>
+            <% end %>
+          </div>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">tracked domains</h2>
+        <div class="panel">
+          <% if @domains.any? %>
+            <%= render "domains/table", domains: @domains, removable: true %>
+          <% else %>
+            <div class="panel__body"><p class="dash-empty">No domains tracked yet.</p></div>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

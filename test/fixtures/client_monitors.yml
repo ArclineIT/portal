@@ -1,0 +1,4 @@
+acme_web:
+  client: acme
+  monitor_name: Main Website
+  label: Website

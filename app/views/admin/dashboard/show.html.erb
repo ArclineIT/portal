@@ -1,0 +1,85 @@
+<% content_for :title, "Admin — Arcline Portal" %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">Portal</p>
+    <h1 class="page-header__title">Admin</h1>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <section class="dash-section">
+        <h2 class="dash-section__title">tickets</h2>
+        <div class="panel">
+          <% if @tickets.any? %>
+            <%= render "tickets/table", tickets: @tickets, show_client: true %>
+          <% else %>
+            <div class="panel__body"><p class="dash-empty">No tickets.</p></div>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">clients</h2>
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="inv-table">
+              <thead>
+                <tr>
+                  <th class="inv-table__th">Name</th>
+                  <th class="inv-table__th">Username</th>
+                  <th class="inv-table__th">Email</th>
+                  <th class="inv-table__th">Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @clients.each do |client| %>
+                  <tr class="inv-table__row">
+                    <td class="inv-table__td"><%= link_to client.display_name, admin_client_path(client) %></td>
+                    <td class="inv-table__td inv-table__td--muted"><%= client.username %></td>
+                    <td class="inv-table__td inv-table__td--muted"><%= client.email_address.presence || "—" %></td>
+                    <td class="inv-table__td"><%= client.admin? ? "Admin" : "Client" %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">new client</h2>
+        <div class="panel">
+          <div class="panel__body">
+            <%= form_with url: admin_clients_path, class: "form" do |form| %>
+              <div class="form__row">
+                <div class="field">
+                  <%= form.label :username, "Username" %>
+                  <%= form.text_field :username, required: true, autocapitalize: "none" %>
+                </div>
+                <div class="field">
+                  <%= form.label :display_name, "Display name" %>
+                  <%= form.text_field :display_name, required: true %>
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="field">
+                  <%= form.label :email_address do %>Email <span class="field__optional">(optional)</span><% end %>
+                  <%= form.email_field :email_address %>
+                </div>
+                <div class="field">
+                  <%= form.label :password do %>Password <span class="field__optional">(min. 8 characters)</span><% end %>
+                  <%= form.password_field :password, required: true, minlength: 8, maxlength: 72, autocomplete: "new-password" %>
+                </div>
+              </div>
+              <label class="check"><%= form.check_box :admin, {}, "1", "0" %> Administrator</label>
+              <%= form.submit "Create client", class: "btn btn--primary" %>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

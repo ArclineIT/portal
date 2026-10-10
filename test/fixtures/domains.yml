@@ -1,0 +1,10 @@
+acme_ok:
+  client: acme
+  name: acme.test
+  last_checked_at: <%= 1.hour.ago.to_fs(:db) %>
+  expires_at: <%= 90.days.from_now.to_fs(:db) %>
+  certificate_valid: true
+
+globex_site:
+  client: globex
+  name: globex.test

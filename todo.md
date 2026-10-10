@@ -4,10 +4,10 @@ Web UI for Arcline customers: SSL expiry tracking, one-click static deployment,
 log viewer. Sits alongside or integrates with WHMCS for billing.
 
 ## Stack
-- Language: Go (backend) + vanilla HTML/CSS/JS (Arcline design system)
-- Storage: PostgreSQL or SQLite
+- Ruby on Rails 8.1 + Hotwire (Arcline design system)
+- Storage: SQLite
 - Auth: session-based (bcrypt passwords) + optional TOTP 2FA
-- Deployment: single binary + embedded static assets
+- Deployment: Docker image via Kamal
 
 ## Modules
 
@@ -18,7 +18,7 @@ log viewer. Sits alongside or integrates with WHMCS for billing.
 - Color coding: green >30d, amber 14-30d, red <14d
 - Email alerts: 30d, 14d, 7d before expiry
 - [x] Domain management (add/remove) — ownership verify via DNS TXT not implemented
-- [x] Background cert checker (goroutine + ticker)
+- [x] Background cert checker (job on add, `bin/rails ssl:check` daily)
 - [ ] Alert email templates (30/14/7 day notifications not wired up)
 - [x] Dashboard view
 
@@ -38,7 +38,7 @@ log viewer. Sits alongside or integrates with WHMCS for billing.
 - Customer views their access/error logs in browser (no SSH required)
 - Filtered by: date range, status code, IP, path
 - Tail mode: live stream via SSE
-- [ ] Log file reader (tail -F equivalent in Go)
+- [ ] Log file reader (tail -F equivalent)
 - [ ] Filter engine
 - [ ] SSE streaming endpoint
 - [ ] Frontend log table (virtual scroll for large logs)
@@ -59,11 +59,12 @@ log viewer. Sits alongside or integrates with WHMCS for billing.
 - [x] Session management (secure cookie, server-side store)
 
 ## Tasks (phase 1 — MVP)
-- [x] Project scaffold (Go + embedded FS for templates/assets)
+- [x] Project scaffold
+- [x] Port from Go to Ruby on Rails
 - [x] Database schema (users, domains, deployments, tickets, sessions)
 - [x] Auth system (register, login, sessions, password reset)
 - [x] SSL dashboard (domain add, cert check, expiry display) — DNS TXT verify pending
 - [x] Basic ticket system
 - [x] Arcline design system applied to all views
-- [x] systemd unit + nginx reverse proxy config
+- [x] Dockerfile + Kamal deploy config
 - [x] README: deployment guide, env vars reference

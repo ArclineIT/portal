@@ -1,0 +1,84 @@
+<% content_for :title, "Dashboard — Arcline Portal" %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">Portal</p>
+    <h1 class="page-header__title">Welcome back, <span class="dash-header__name"><%= current_client.display_name %></span></h1>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <% if @statuses.any? %>
+        <section class="dash-section">
+          <h2 class="dash-section__title">service status</h2>
+          <div class="panel">
+            <div class="table-wrap">
+              <table class="inv-table">
+                <thead>
+                  <tr>
+                    <th class="inv-table__th">Service</th>
+                    <th class="inv-table__th">Status</th>
+                    <th class="inv-table__th inv-table__th--right">Response</th>
+                    <th class="inv-table__th inv-table__th--right">24h</th>
+                    <th class="inv-table__th inv-table__th--right">7d</th>
+                    <th class="inv-table__th inv-table__th--right">30d</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @statuses.each do |status| %>
+                    <tr class="inv-table__row">
+                      <td class="inv-table__td"><%= status.label %></td>
+                      <td class="inv-table__td">
+                        <% if status.last_checked.nil? %>
+                          <span class="status-badge status-badge--pending">no data</span>
+                        <% elsif status.up %>
+                          <span class="status-badge status-badge--ok">up</span>
+                        <% else %>
+                          <span class="status-badge status-badge--crit">down</span>
+                        <% end %>
+                      </td>
+                      <td class="inv-table__td inv-table__td--right inv-table__td--muted"><%= status.last_checked ? "#{status.response_ms} ms" : "—" %></td>
+                      <td class="inv-table__td inv-table__td--right"><%= number_to_percentage(status.uptime_24h, precision: 2) %></td>
+                      <td class="inv-table__td inv-table__td--right"><%= number_to_percentage(status.uptime_7d, precision: 2) %></td>
+                      <td class="inv-table__td inv-table__td--right"><%= number_to_percentage(status.uptime_30d, precision: 2) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      <% end %>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">ssl certificates</h2>
+        <div class="panel">
+          <% if @domains.any? %>
+            <%= render "domains/table", domains: @domains %>
+          <% else %>
+            <div class="panel__body">
+              <p class="dash-empty">No domains tracked yet.</p>
+              <p class="dash-empty-sub"><%= link_to "Add a domain", domains_path, class: "link-arrow" %> to watch its certificate.</p>
+            </div>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">recent tickets</h2>
+        <div class="panel">
+          <% if @tickets.any? %>
+            <%= render "tickets/table", tickets: @tickets %>
+          <% else %>
+            <div class="panel__body">
+              <p class="dash-empty">No support tickets.</p>
+              <p class="dash-empty-sub"><%= link_to "Open a ticket", tickets_path, class: "link-arrow" %> if you need a hand.</p>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

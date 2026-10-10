@@ -1,0 +1,11 @@
+Hi <%= @ticket.client.display_name %>,
+
+<%= @replier.display_name %> replied to your ticket "<%= @ticket.subject %>":
+
+---
+<%= @message.body %>
+---
+
+View the full thread: <%= ticket_url(@ticket) %>
+
+— Arcline IT

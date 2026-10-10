@@ -1,0 +1,35 @@
+<%# locals: (domains:, removable: false) %>
+<div class="table-wrap">
+  <table class="inv-table">
+    <thead>
+      <tr>
+        <th class="inv-table__th">Domain</th>
+        <th class="inv-table__th">Status</th>
+        <th class="inv-table__th">Expires</th>
+        <th class="inv-table__th inv-table__th--right">Days left</th>
+        <th class="inv-table__th">Last checked</th>
+        <% if removable %><th class="inv-table__th"><span class="visually-hidden">Actions</span></th><% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% domains.each do |domain| %>
+        <tr class="inv-table__row">
+          <td class="inv-table__td"><%= domain.name %></td>
+          <td class="inv-table__td">
+            <span class="status-badge status-badge--<%= domain.severity %>"><%= severity_label(domain) %></span>
+            <% if domain.check_error.present? %><span class="cell-note"><%= domain.check_error %></span><% end %>
+          </td>
+          <td class="inv-table__td inv-table__td--muted"><%= format_date(domain.expires_at) %></td>
+          <td class="inv-table__td inv-table__td--right"><%= domain.expires_at ? domain.days_remaining : "—" %></td>
+          <td class="inv-table__td inv-table__td--muted"><%= domain.checked? ? "#{time_ago_in_words(domain.last_checked_at)} ago" : "Pending" %></td>
+          <% if removable %>
+            <td class="inv-table__td inv-table__td--right">
+              <%= button_to "Remove", domain_path(domain), method: :delete, class: "btn btn--danger btn--sm",
+                    data: { turbo_confirm: "Stop tracking #{domain.name}?" } %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,11 @@
+Hi <%= @client.display_name %>,
+
+Someone requested a password reset for your Arcline Portal account.
+If that was you, open the link below to set a new password.
+The link expires in 1 hour.
+
+  <%= edit_password_url(@client.password_reset_token) %>
+
+If you did not request this, you can safely ignore this email.
+
+— Arcline IT

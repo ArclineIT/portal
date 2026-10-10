@@ -1,0 +1,79 @@
+<% content_for :title, "#{@client.display_name} — Admin" %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow"><%= link_to "Admin", admin_root_path %></p>
+    <h1 class="page-header__title"><%= @client.display_name %></h1>
+    <p class="lead"><%= @client.username %><% if @client.email_address.present? %> · <%= @client.email_address %><% end %></p>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <section class="dash-section">
+        <h2 class="dash-section__title">uptime monitors</h2>
+        <div class="panel">
+          <% if @monitors.any? %>
+            <div class="table-wrap">
+              <table class="inv-table">
+                <thead>
+                  <tr>
+                    <th class="inv-table__th">Monitor name</th>
+                    <th class="inv-table__th">Label</th>
+                    <th class="inv-table__th"><span class="visually-hidden">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @monitors.each do |monitor| %>
+                    <tr class="inv-table__row">
+                      <td class="inv-table__td"><%= monitor.monitor_name %></td>
+                      <td class="inv-table__td inv-table__td--muted"><%= monitor.label.presence || "—" %></td>
+                      <td class="inv-table__td inv-table__td--right">
+                        <%= button_to "Remove", admin_client_monitor_path(@client, monitor), method: :delete, class: "btn btn--danger btn--sm" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+          <div class="panel__body">
+            <%= form_with url: admin_client_monitors_path(@client), class: "form" do |form| %>
+              <div class="form__row">
+                <div class="field">
+                  <%= form.label :monitor_name, "Monitor name" %>
+                  <%= form.text_field :monitor_name, required: true, placeholder: "Main Website" %>
+                  <p class="field__hint">Must match the monitor's name in arcline-uptime.</p>
+                </div>
+                <div class="field">
+                  <%= form.label :label do %>Label <span class="field__optional">(optional)</span><% end %>
+                  <%= form.text_field :label %>
+                </div>
+              </div>
+              <%= form.submit "Add monitor", class: "btn btn--primary" %>
+            <% end %>
+          </div>
+        </div>
+      </section>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">ssl certificates</h2>
+        <div class="panel">
+          <% if @domains.any? %>
+            <%= render "domains/table", domains: @domains %>
+          <% else %>
+            <div class="panel__body"><p class="dash-empty">No domains tracked.</p></div>
+          <% end %>
+        </div>
+      </section>
+
+      <% unless @client == current_client %>
+        <div class="dash-actions">
+          <%= button_to "Delete client", admin_client_path(@client), method: :delete, class: "btn btn--danger btn--sm",
+                data: { turbo_confirm: "Delete #{@client.display_name} and all of their domains and tickets? This cannot be undone." } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

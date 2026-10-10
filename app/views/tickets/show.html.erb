@@ -1,0 +1,50 @@
+<% content_for :title, "#{@ticket.subject} — Arcline Portal" %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow"><%= link_to "Support tickets", current_client.admin? ? admin_root_path : tickets_path %></p>
+    <h1 class="page-header__title"><%= @ticket.subject %></h1>
+    <p class="lead">
+      <span class="status-badge status-badge--<%= @ticket.status %>"><%= @ticket.status.humanize.downcase %></span>
+      Opened <%= format_date(@ticket.created_at) %><% if current_client.admin? %> by <%= @ticket.client.display_name %><% end %>
+    </p>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <div class="thread">
+        <% @messages.each do |message| %>
+          <article class="thread__message <%= "thread__message--admin" if message.from_admin? %>">
+            <header class="thread__meta">
+              <strong><%= message.from_admin? ? "Arcline support" : @ticket.client.display_name %></strong>
+              <time datetime="<%= message.created_at.iso8601 %>"><%= message.created_at.strftime("%b %-d, %Y %H:%M") %></time>
+            </header>
+            <%= simple_format message.body %>
+          </article>
+        <% end %>
+      </div>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">reply</h2>
+        <div class="panel">
+          <div class="panel__body">
+            <%= form_with url: reply_ticket_path(@ticket), class: "form" do |form| %>
+              <div class="field">
+                <%= form.label :body, "Message" %>
+                <%= form.text_area :body, required: true, rows: 5 %>
+              </div>
+              <% if current_client.admin? && !@ticket.closed? %>
+                <label class="check">
+                  <%= form.check_box :close, {}, "1", "0" %> Close this ticket
+                </label>
+              <% end %>
+              <%= form.submit "Send reply", class: "btn btn--primary" %>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

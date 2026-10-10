@@ -40,7 +40,7 @@ class SslCheck
 
   private
     def fetch_certificate
-      tcp = Socket.tcp(@domain, 443, connect_timeout: TIMEOUT)
+      tcp = TCPSocket.new(@domain, 443, connect_timeout: TIMEOUT)
       context = OpenSSL::SSL::SSLContext.new
       context.set_params(verify_mode: OpenSSL::SSL::VERIFY_PEER)
 

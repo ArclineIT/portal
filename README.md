@@ -1,6 +1,6 @@
 # Arcline Portal
 
-Customer dashboard for arclineit.com. Customers track SSL certificate expiry,
+Customer dashboard for arcline.it. Customers track SSL certificate expiry,
 see the status of their monitored services, and open support tickets, without
 needing SSH access to anything.
 
@@ -54,7 +54,7 @@ their accounts under `/admin`.
 | `SMTP_PORT` | `587` | SMTP port (STARTTLS) |
 | `SMTP_USER` | — | SMTP username |
 | `SMTP_PASS` | — | SMTP password |
-| `SMTP_FROM` | `portal@arclineit.com` | From address for outgoing email |
+| `SMTP_FROM` | `portal@arcline.it` | From address for outgoing email |
 | `ADMIN_EMAIL` | — | Receives new-ticket and client-reply notifications |
 
 ## Scheduled tasks

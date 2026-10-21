@@ -45,7 +45,7 @@ log viewer. Sits alongside or integrates with WHMCS for billing.
 
 ### 4. Support Tickets
 - Simple ticket system (open, in-progress, closed)
-- Customer creates ticket → email notification to blake@arclineit.com
+- Customer creates ticket → email notification to blake@arcline.it
 - Blake replies via email → reply appears in ticket thread
 - [x] Ticket CRUD
 - [ ] Email-in (IMAP polling or inbound SMTP hook)
